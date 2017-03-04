@@ -1,0 +1,5 @@
+-I/usr/include/qt/QtGui/5.8.0/QtGui
+-I/home/rasmusk/Development/C/what/vendor/hotkey/UIGlobalHotKey
+-o
+/home/rasmusk/Development/C/what/build/vendor/hotkey/UIGlobalHotKey/moc_uglobalhotkeys.cpp
+/home/rasmusk/Development/C/what/vendor/hotkey/UIGlobalHotKey/uglobalhotkeys.h

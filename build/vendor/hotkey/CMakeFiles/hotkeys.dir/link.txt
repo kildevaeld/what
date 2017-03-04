@@ -1,0 +1,2 @@
+/usr/bin/ar qc libhotkeys.a  CMakeFiles/hotkeys.dir/UIGlobalHotKey/moc_uglobalhotkeys.cpp.o CMakeFiles/hotkeys.dir/UIGlobalHotKey/moc_ukeysequence.cpp.o CMakeFiles/hotkeys.dir/UIGlobalHotKey/uexception.cpp.o CMakeFiles/hotkeys.dir/UIGlobalHotKey/uglobalhotkeys.cpp.o CMakeFiles/hotkeys.dir/UIGlobalHotKey/ukeysequence.cpp.o
+/usr/bin/ranlib libhotkeys.a

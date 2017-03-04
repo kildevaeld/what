@@ -1,0 +1,4 @@
+# Hashes of file build rules.
+4199ca994a9fc3177df09fa47e85753a src/whatapp/moc_window.cpp
+10066c036f81274e5723336c21271636 vendor/hotkey/UIGlobalHotKey/moc_uglobalhotkeys.cpp
+4edfe501e32ca04cf98795f5f4804986 vendor/hotkey/UIGlobalHotKey/moc_ukeysequence.cpp

@@ -1,0 +1,3 @@
+[submodule "vendor/hotkey/UIGlobalHotKey"]
+	path = vendor/hotkey/UIGlobalHotKey
+	url = https://github.com/falceeffect/UGlobalHotkey

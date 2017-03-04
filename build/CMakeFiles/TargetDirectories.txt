@@ -1,0 +1,11 @@
+/home/rasmusk/Development/C/what/build/CMakeFiles/rebuild_cache.dir
+/home/rasmusk/Development/C/what/build/CMakeFiles/edit_cache.dir
+/home/rasmusk/Development/C/what/build/src/what/CMakeFiles/rebuild_cache.dir
+/home/rasmusk/Development/C/what/build/src/what/CMakeFiles/edit_cache.dir
+/home/rasmusk/Development/C/what/build/src/what/CMakeFiles/libwhat.dir
+/home/rasmusk/Development/C/what/build/vendor/hotkey/CMakeFiles/edit_cache.dir
+/home/rasmusk/Development/C/what/build/vendor/hotkey/CMakeFiles/rebuild_cache.dir
+/home/rasmusk/Development/C/what/build/vendor/hotkey/CMakeFiles/hotkeys.dir
+/home/rasmusk/Development/C/what/build/src/whatapp/CMakeFiles/rebuild_cache.dir
+/home/rasmusk/Development/C/what/build/src/whatapp/CMakeFiles/edit_cache.dir
+/home/rasmusk/Development/C/what/build/src/whatapp/CMakeFiles/what.dir
