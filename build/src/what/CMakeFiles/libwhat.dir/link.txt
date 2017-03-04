@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblibwhat.a  CMakeFiles/libwhat.dir/duk_console.c.o CMakeFiles/libwhat.dir/duk_module.c.o CMakeFiles/libwhat.dir/info.c.o CMakeFiles/libwhat.dir/what.c.o
-/usr/bin/ranlib liblibwhat.a
