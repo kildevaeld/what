@@ -14,9 +14,15 @@ public:
 
 protected:
     virtual void closeEvent(QCloseEvent *event) override;
+    
+protected slots:
+    void onPreferences();
 
 private:
+	void createMenu();
+
     QSystemTrayIcon *m_tray;
     QQuickWidget *m_quick;
     UGlobalHotkeys *m_hotkey;
+
 };

@@ -21,4 +21,6 @@ endif()
 
 if (LINUX)
     target_link_libraries(hotkeys xcb xcb-keysyms)
+elseif (APPLE)
+	target_link_libraries(hotkeys "-framework Carbon")
 endif(LINUX)

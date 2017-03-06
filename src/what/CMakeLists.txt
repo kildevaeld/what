@@ -9,9 +9,10 @@ set(SOURCES
 
 set(HEADERS 
     duk_console.h
-    duk_console.c
+    duk_module.c
+    
 )
 
 
 add_library(libwhat ${SOURCES})
-target_link_libraries(libwhat duktape m)
+target_link_libraries(libwhat duktape)
