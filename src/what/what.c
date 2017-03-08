@@ -50,12 +50,12 @@ static void initialize_duktape(duk_context *ctx) {
   duk_console_init(ctx, DUK_CONSOLE_PROXY_WRAPPER /*flags*/);
 
   // Module loading
-  /*duk_push_object(ctx);
+  duk_push_object(ctx);
   duk_push_c_function(ctx, cb_resolve_module, DUK_VARARGS);
   duk_put_prop_string(ctx, -2, "resolve");
   duk_push_c_function(ctx, cb_load_module, DUK_VARARGS);
   duk_put_prop_string(ctx, -2, "load");
-  duk_module_node_init(ctx);*/
+  duk_module_node_init(ctx);
 }
 
 what_t *what_create(const char *data) {
