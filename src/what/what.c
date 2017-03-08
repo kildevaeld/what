@@ -94,7 +94,7 @@ int check(const char *n, const char **h, size_t hs) {
   return 0;
 }
 
-const char *what_run(what_t *what, const char *from, const char *to,
+char *what_run(what_t *what, const char *from, const char *to,
                      const char *input) {
   if (!check(from, what->_info->units, what->_info->units_size) ||
       !check(to, what->_info->units, what->_info->units_size)) {
@@ -121,6 +121,6 @@ const char *what_run(what_t *what, const char *from, const char *to,
   const char *str = duk_safe_to_string(ctx, -1);
   duk_pop_n(ctx, 1);
 
-  return str;
-    return "";
+  return strdup(str);
+
 }

@@ -2,14 +2,9 @@
 
 #include <QString>
 #include <QMap>
-enum ResultType {
-    Convertion
-};
+#include "result-list.hpp"
 
-struct Result {
-    ResultType type;
-    QMap<QString,QString> result;
-};
+
 
 class WhatEngine {
 

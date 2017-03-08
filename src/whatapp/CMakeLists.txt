@@ -1,5 +1,5 @@
 
-qt5_wrap_cpp(MOC window.hpp backend.hpp)
+qt5_wrap_cpp(MOC window.hpp backend.hpp result-list.hpp)
 qt5_add_resources(QRC_SOURCES ${CMAKE_CURRENT_SOURCE_DIR}/resources.qrc)
 
 set(SOURCES
@@ -9,6 +9,7 @@ set(SOURCES
     preferences.cpp
     backend.cpp
     engine.cpp
+    result-list.cpp
 )
 
 

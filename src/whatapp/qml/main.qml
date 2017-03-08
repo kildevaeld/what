@@ -30,7 +30,8 @@ Rectangle {
 
         onAccepted: {
             var r = backend.transform(input.text)
-            result.setResult(r);
+            console.log(backend.results);
+            //result.setResult(r);
         
         }
 
@@ -60,22 +61,21 @@ Rectangle {
             top: input.bottom;
         }
 
-        ListModel {
-            id: model
-        }
 
         Flow {
-            anchors.fill: parent
+            anchors.centerIn: parent
             anchors.margins: 4
             spacing: 10
             Repeater {
-                model: model
+                model: backend.results
                 Column {
                     Text {
                         text: value
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                     Text {
                         text: key
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
             }    

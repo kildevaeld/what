@@ -9,6 +9,7 @@
 
 #include "backend.hpp"
 #include "preferences.hpp"
+#include "result-list.hpp"
 
 Window::Window(QWidget *parent) : QMainWindow(parent) {
   QIcon icon(":/images/icon.png");
@@ -20,7 +21,7 @@ Window::Window(QWidget *parent) : QMainWindow(parent) {
   m_quick->setResizeMode(QQuickWidget::SizeRootObjectToView);
 
   qmlRegisterType<Backend>("What", 0, 1, "Backend");
-
+  qRegisterMetaType<ResultsList *>("ResultsList *");
   setCentralWidget(m_quick);
   m_quick->setSource(QUrl("qrc:/qml/main.qml"));
 
@@ -70,7 +71,7 @@ void Window::closeEvent(QCloseEvent *event) {
                                 "choose <b>Quit</b> in the context menu "
                                 "of the system tray entry."));*/
     hide();
-    //event->ignore();
+    // event->ignore();
   }
 }
 

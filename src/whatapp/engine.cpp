@@ -1,148 +1,142 @@
 #include "engine.hpp"
 #include "what.h"
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QVariant>
 #include <QDebug>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QVariant>
 
 #include "parsing_functions.h"
 #include "utility_functions.h"
 #include <QSqlQuery>
 #include <iostream>
 
-WhatEngine::WhatEngine()
-{
-
-}
+WhatEngine::WhatEngine() {}
 
 bool WhatEngine::registerFromJavascript(const QString &str) {
 
-    std::string stdstr = str.toStdString();
-    auto s = stdstr.c_str();
+  std::string stdstr = str.toStdString();
+  auto s = stdstr.c_str();
 
+  what_t *w = what_create(s);
 
-    what_t *w = what_create(s);
+  if (!w) {
+    return false;
+  }
 
-    if (!w) {
-        return false;
-    }
+  auto name = w->_info->name;
+  auto units = w->_info->units;
+  auto size = w->_info->units_size;
 
+  QSqlQuery q;
 
-    auto name = w->_info->name;
-    auto units = w->_info->units;
-    auto size = w->_info->units_size;
+  q.prepare(QLatin1String("insert into converters(name, script) values(?, ?)"));
 
-    QSqlQuery q;
+  q.addBindValue(QString(name));
+  q.addBindValue(str);
 
-    q.prepare(QLatin1String("insert into converters(name, script) values(?, ?)"));
-
-    q.addBindValue(QString(name));
-    q.addBindValue(str);
-
-    if (!q.exec()) {
-        qDebug() << q.lastError();
-        what_free(w);
-        return false;
-    }
-
-    auto id = q.lastInsertId();
-
-    q.clear();
-    q.prepare(QLatin1String("insert into units(converter_id, unit) VALUES(?,?)"));
-
-    for (int i = 0; i < size; i++ ) {
-        auto u = units[i];
-        q.addBindValue(id);
-        q.addBindValue(QString(u));
-        if (!q.exec()) {
-            qDebug() << q.lastError();
-        }
-    }
-
+  if (!q.exec()) {
+    qDebug() << q.lastError();
     what_free(w);
+    return false;
+  }
 
-    return true;
+  auto id = q.lastInsertId();
+
+  q.clear();
+  q.prepare(QLatin1String("insert into units(converter_id, unit) VALUES(?,?)"));
+
+  for (int i = 0; i < size; i++) {
+    auto u = units[i];
+    q.addBindValue(id);
+    q.addBindValue(QString(u));
+    if (!q.exec()) {
+      qDebug() << q.lastError();
+    }
+  }
+
+  what_free(w);
+
+  return true;
 }
 
-Result WhatEngine::run(const QString &in)
-{
-    std::string s = in.toStdString();
+Result WhatEngine::run(const QString &in) {
+  std::string s = in.toStdString();
 
-    element *e = parse(s.c_str());
-    if (!e) {
-        qDebug() << "Error";
-        return Result();
+  element *e = parse(s.c_str());
+  if (!e) {
+    qDebug() << "Error";
+    return Result();
+  }
+
+  QSqlQuery q;
+
+  q.prepare("select converters.* from converters join units on "
+            "units.converter_id = converters.id WHERE units.unit = ? LIMIT 1");
+  q.addBindValue(QString(e->value.converter->from));
+
+  QString name;
+  QString script;
+  what_t *what;
+  int id;
+  auto value = e->value.converter->value;
+  auto v = std::to_string(value);
+  Result r;
+
+  std::vector<std::string> list;
+  if (!q.exec()) {
+    goto error;
+  }
+
+  if (!q.next()) {
+    goto error;
+  }
+
+  name = q.value("name").toString();
+  script = q.value("script").toString();
+  id = q.value("id").toInt();
+  s = script.toStdString();
+
+  if (e->value.converter->to == NULL) {
+    q.prepare("select * from units where converter_id = ?");
+    q.addBindValue(id);
+    q.exec();
+
+    while (q.next()) {
+      QString str = q.value("unit").toString();
+      if (str == e->value.converter->from)
+        continue;
+      list.push_back(str.toStdString());
     }
 
+  } else {
+    list.emplace_back(e->value.converter->to);
+  }
 
-    QSqlQuery q;
+  what = what_create(s.c_str());
 
-    q.prepare("select converters.* from converters join units on units.converter_id = converters.id WHERE units.unit = ? LIMIT 1");
-    q.addBindValue(QString(e->value.converter->from));
+  if (!what) {
+    qDebug() << "NO WHAT";
+    goto error;
+  }
 
-    QString name;
-    QString script;
-    what_t *what;
-    int id;
-    auto value = e->value.converter->value;
-    auto v = std::to_string(value);
-    Result r;
+  r.type = Convertion;
+  for (auto ss : list) {
 
-    std::vector<std::string> list;
-    if (!q.exec()) {
-        goto error;
-    }
+    auto output =
+        what_run(what, e->value.converter->from, ss.c_str(), v.c_str());
+    r.result.append(ResultPair{QString::fromStdString(ss), QString(output)});
+    qDebug() << QString::fromStdString(ss) << output;
 
-    if (!q.next()) {
-        goto error;
-    }
+    free(output);
+    // r.result[QString::fromStdString(ss)] = QString(output);
+  }
 
-    name = q.value("name").toString();
-    script = q.value("script").toString();
-    id = q.value("id").toInt();
-    s = script.toStdString();
+  what_free(what);
+  free_element(e);
 
-
-    if (e->value.converter->to == NULL) {
-        q.prepare("select * from units where converter_id = ?");
-        q.addBindValue(id);
-        q.exec();
-
-        while(q.next()) {
-            QString str = q.value("unit").toString();
-            if (str ==e->value.converter->from) continue;
-            list.push_back(str.toStdString());
-        }
-
-    } else {
-        list.emplace_back(e->value.converter->to);
-    }
-
-
-     what = what_create(s.c_str());
-
-    if (!what) {
-        qDebug() << "NO WHAT";
-        goto error;
-    }
-
-    
-    r.type = Convertion;
-    for (auto ss: list) {
-       
-        auto output = what_run(what, e->value.converter->from, ss.c_str(), v.c_str());
-        r.result[QString::fromStdString(ss)] = QString(output);
-    }
-
-    what_free(what);
-    free_element(e);
-
-    return r;
+  return r;
 
 error:
-    free_element(e);
-    return Result();
-
+  free_element(e);
+  return Result();
 }
-
-

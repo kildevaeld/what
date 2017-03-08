@@ -1,12 +1,14 @@
 #include "backend.hpp"
+#include "engine.hpp"
 #include <QDebug>
 #include <QStringList>
-#include "engine.hpp"
 
-Backend::Backend(QQuickItem *parent) : QQuickItem(parent) {}
+Backend::Backend(QQuickItem *parent) : QQuickItem(parent) {
+  m_results = new ResultsList(this);
+}
 
 QString Backend::suggest(const QString &in) {
-  //qDebug() << "Suggest" << in;
+  // qDebug() << "Suggest" << in;
   if (in.isEmpty())
     return "";
 
@@ -23,16 +25,14 @@ QString Backend::suggest(const QString &in) {
 
 QVariantMap Backend::transform(const QString &in) {
 
-    WhatEngine e;
+  WhatEngine e;
 
-    auto r = e.run(in);
-    
-    QMap<QString, QString>::iterator i;
-    QVariantMap m;
-    for (i =  r.result.begin(); i  != r.result.end(); i++) {
-      m[i.key()] = i.value();
-    }
+  auto r = e.run(in);
 
-    return m;
+  QList<ResultPair>::iterator i;
+  QVariantMap m;
 
+  m_results->setResult(r);
+
+  return m;
 }
