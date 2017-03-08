@@ -1,67 +1,69 @@
-#include <QApplication>
-#include "window.hpp"
 #include "engine.hpp"
-#include <QStandardPaths>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QFile>
-#include <QDir>
+#include "window.hpp"
+#include <QApplication>
 #include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
+#include <QStandardPaths>
 
 QSqlError initDB(const QString &str) {
-    QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(str);
+  QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
+  db.setDatabaseName(":memory:");
 
-    if (!db.open()) {
-        return db.lastError();
-    }
+  if (!db.open()) {
+    return db.lastError();
+  }
 
-    QSqlQuery q;
+  QSqlQuery q;
 
-    if (!q.exec(QLatin1String("create table if not exists converters(id integer primary key autoincrement, name varchar unique, script text)"))) {
-        return q.lastError();
-    }
-    if (!q.exec(QLatin1String("create table if not exists units(converter_id integer, unit varchar unique)"))) {
-        return q.lastError();
-    }
+  if (!q.exec(QLatin1String("create table if not exists converters(id integer "
+                            "primary key autoincrement, name varchar unique, "
+                            "script text)"))) {
+    return q.lastError();
+  }
+  if (!q.exec(QLatin1String("create table if not exists units(converter_id "
+                            "integer, unit varchar unique)"))) {
+    return q.lastError();
+  }
 
-    WhatEngine e;
+  WhatEngine e;
 
-    QFile file(":/converters/datastorage.js");
-    if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "file not readable";
-        return QSqlError();
-    }
-    auto d = file.readAll();
-    d.append('\0');
-
-    e.registerFromJavascript(QString::fromUtf8(d));
-    
-
+  QFile file(":/converters/datastorage.js");
+  if (!file.open(QIODevice::ReadOnly)) {
+    qDebug() << "file not readable";
     return QSqlError();
+  }
+  auto d = file.readAll();
+  d.append('\0');
+
+  e.registerFromJavascript(QString::fromUtf8(d));
+
+  return QSqlError();
 }
 
 int main(int argc, char **argv) {
 
-    QApplication app(argc, argv);
-    app.setApplicationName("what");
-    app.setOrganizationDomain("softshag");
-    
-    auto path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
-    QDir dir(path);
-    if (!dir.exists()) {
-        dir.mkpath(".");
-    }
+  QApplication app(argc, argv);
+  app.setApplicationName("what");
+  app.setOrganizationDomain("softshag");
 
-    path = dir.absoluteFilePath("what.sqlite");
-    auto e = initDB(path);
-    if (e.isValid()) {
-        qDebug() << e;
-    }
-    Window win;
+  auto path = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+  QDir dir(path);
+  if (!dir.exists()) {
+    dir.mkpath(".");
+  }
 
-    win.show();
+  path = dir.absoluteFilePath("what.sqlite");
+  auto e = initDB(path);
+  if (e.isValid()) {
+    qDebug() << e;
+  }
+  Window win;
 
-    return app.exec();
+  win.show();
+
+  return app.exec();
 }

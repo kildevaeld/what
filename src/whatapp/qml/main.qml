@@ -23,7 +23,7 @@ Rectangle {
             topMargin: 15
             horizontalCenter: parent.horizontalCenter
         }
-
+        selectByMouse: true
         font {
             pixelSize: 16
         }
@@ -63,15 +63,33 @@ Rectangle {
 
 
         Flow {
+            id: flow
+            //x: (parent.width - width) / 2
             anchors.centerIn: parent
             anchors.margins: 4
+            /*width: {
+                var w =  Math.min(flow.width, parent.width);
+                console.log(w, flow.width, parent.width)
+                return flow.width
+            }*/
+            onWidthChanged: {
+                if (width >= parent.width) {
+                    flow.width = parent.width - 20
+                }
+            }
+
             spacing: 10
             Repeater {
                 model: backend.results
                 Column {
-                    Text {
+                    TextEdit {
+                        readOnly: true
+                        selectByMouse: true
                         text: value
                         anchors.horizontalCenter: parent.horizontalCenter
+                        font {
+                            weight: Font.Bold
+                        }
                     }
                     Text {
                         text: key

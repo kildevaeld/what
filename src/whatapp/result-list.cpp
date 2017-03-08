@@ -3,7 +3,7 @@
 ResultsList::ResultsList(QObject *parent) {}
 
 int ResultsList::rowCount(const QModelIndex &parent) const {
-  qDebug() << "Get Size" << m_result.size();
+
   return m_result.size();
 }
 

@@ -27,9 +27,18 @@ element *mk_int(int i) {
   element *e = mk_element(NUMBER);
   if (!e)
     return NULL;
-  e->value.num = i;
+  e->value.num = (double)i;
 
   return e;
+}
+
+element *mk_double(double i) {
+    element *e = mk_element(NUMBER);
+    if (!e)
+      return NULL;
+    e->value.num = i;
+
+    return e;
 }
 
 element *mk_converter(element *from, element *to, element *value) {

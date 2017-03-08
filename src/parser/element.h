@@ -2,8 +2,7 @@
 #define WHAT_PARSER_H
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
 struct Converter {
@@ -12,16 +11,11 @@ struct Converter {
   int value;
 };
 
-enum Tokens {
-  UNIT,
-  NUMBER,
-  STRING,
-  CONVERTER
-};
+enum Tokens { UNIT, NUMBER, STRING, CONVERTER };
 
 union Contents {
   char *str;
-  int num;
+  double num;
   struct Converter *converter;
 };
 

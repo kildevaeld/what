@@ -35,7 +35,7 @@ add_subdirectory(src/whatapp)
 
 file(
     GLOB_RECURSE PROJECT_FILES FOLLOW_SYMLINKS
-    *.qrc *.qml *.txt *.c *.cpp *.hpp *.h *.in *.cmake *.sh *.md AUTHORS, *.js
+    *.qrc *.qml *.txt *.c *.cpp *.hpp *.h *.in *.cmake *.sh *.md AUTHORS, *.js *.leg
 )
 
 add_custom_target(

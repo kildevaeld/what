@@ -1,47 +1,40 @@
-
 %{
-#include <stdio.h>
 #include "element.h"
 #include "utility_functions.h"
+#include <stdio.h>
 
 #define YYSTYPE element *
 #ifdef __DEBUG__
-# define YY_DEBUG 1
+#define YY_DEBUG 1
 #endif
 
-#define YY_INPUT(buf, result, max_size)              \
-{                                                    \
-    int yyc;                                         \
-    if (charbuf && *charbuf != '\0') {               \
-        yyc= *charbuf++;                             \
-    } else {                                         \
-        yyc= EOF;                                    \
-    }                                                \
-    result= (EOF == yyc) ? 0 : (*(buf)= yyc, 1);     \
-}
+#define YY_INPUT(buf, result, max_size)                                        \
+  {                                                                            \
+    int yyc;                                                                   \
+    if (charbuf && *charbuf != '\0') {                                         \
+      yyc = *charbuf++;                                                        \
+    } else {                                                                   \
+      yyc = EOF;                                                               \
+    }                                                                          \
+    result = (EOF == yyc) ? 0 : (*(buf) = yyc, 1);                             \
+  }
 
-#define YY_RULE(T)	T
-
+#define YY_RULE(T) T
 
 %}
 
+start = ("what" _ "is" _) ? _ e : expression _ EOF { parse_result = e; }
 
-start = ("what" _ "is" _ )? _ e:expression _ EOF  { parse_result = e; }
+expression = u : Unit { $$ = u; }
 
-expression = u:Unit { $$ = u; }
-
-
-
-Unit = n:number _ u:unit _ "in" _ p:unit { $$ = mk_converter(u,p,n); }
-    | n:number _ u:unit { $$ = mk_converter(u, NULL, n); }
-
+Unit = n : number _ u : unit _ "in" _ p : unit { $$ = mk_converter(u, p, n); }
+| n : number _ u : unit { $$ = mk_converter(u, NULL, n); }
 
 unit = < [a-zA-Z]+ > { $$ = mk_str(yytext); }
 
+number = < [0-9.]+ > { $$ = mk_double(strtod(yytext, NULL)); }
 
-number = < [0-9]+ > { $$ = mk_int(atoi(yytext)); }
-
-_ = [ \t]*
+_ = [ \t] *
 
 EOF = !.
 

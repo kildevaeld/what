@@ -4,30 +4,29 @@
 #include <stdlib.h>
 #include <string.h>
 #define YYRULECOUNT 7
-#line 2 "parser.leg"
+#line 1 "parser.leg"
 
-#include <stdio.h>
 #include "element.h"
 #include "utility_functions.h"
+#include <stdio.h>
 
 #define YYSTYPE element *
 #ifdef __DEBUG__
-# define YY_DEBUG 1
+#define YY_DEBUG 1
 #endif
 
-#define YY_INPUT(buf, result, max_size)              \
-{                                                    \
-    int yyc;                                         \
-    if (charbuf && *charbuf != '\0') {               \
-        yyc= *charbuf++;                             \
-    } else {                                         \
-        yyc= EOF;                                    \
-    }                                                \
-    result= (EOF == yyc) ? 0 : (*(buf)= yyc, 1);     \
-}
+#define YY_INPUT(buf, result, max_size)                                        \
+  {                                                                            \
+    int yyc;                                                                   \
+    if (charbuf && *charbuf != '\0') {                                         \
+      yyc = *charbuf++;                                                        \
+    } else {                                                                   \
+      yyc = EOF;                                                               \
+    }                                                                          \
+    result = (EOF == yyc) ? 0 : (*(buf) = yyc, 1);                             \
+  }
 
-#define YY_RULE(T)	T
-
+#define YY_RULE(T) T
 
 
 #ifndef YY_MALLOC
@@ -313,8 +312,8 @@ YY_ACTION(void) yy_1_number(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_1_number\n"));
   {
-#line 42
-   __ = mk_int(atoi(yytext)); ;
+#line 35
+   __ = mk_double(strtod(yytext, NULL)); ;
   }
 #undef yythunkpos
 #undef yypos
@@ -327,7 +326,7 @@ YY_ACTION(void) yy_1_unit(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_1_unit\n"));
   {
-#line 39
+#line 33
    __ = mk_str(yytext); ;
   }
 #undef yythunkpos
@@ -344,7 +343,7 @@ YY_ACTION(void) yy_2_Unit(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_2_Unit\n"));
   {
-#line 36
+#line 31
    __ = mk_converter(u, NULL, n); ;
   }
 #undef yythunkpos
@@ -364,8 +363,8 @@ YY_ACTION(void) yy_1_Unit(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_1_Unit\n"));
   {
-#line 35
-   __ = mk_converter(u,p,n); ;
+#line 30
+   __ = mk_converter(u, p, n); ;
   }
 #undef yythunkpos
 #undef yypos
@@ -382,7 +381,7 @@ YY_ACTION(void) yy_1_expression(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_1_expression\n"));
   {
-#line 31
+#line 28
    __ = u; ;
   }
 #undef yythunkpos
@@ -398,7 +397,7 @@ YY_ACTION(void) yy_1_start(yycontext *yy, char *yytext, int yyleng)
 #define yythunkpos yy->__thunkpos
   yyprintf((stderr, "do yy_1_start\n"));
   {
-#line 29
+#line 26
    parse_result = e; ;
   }
 #undef yythunkpos
@@ -440,9 +439,9 @@ YY_RULE(int) yy_number(yycontext *yy)
 if (!(YY_BEGIN)) goto l4;
 #undef yytext
 #undef yyleng
-  }  if (!yymatchClass(yy, (unsigned char *)"\000\000\000\000\000\000\377\003\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000")) goto l4;
+  }  if (!yymatchClass(yy, (unsigned char *)"\000\000\000\000\000\100\377\003\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000")) goto l4;
   l5:;	
-  {  int yypos6= yy->__pos, yythunkpos6= yy->__thunkpos;  if (!yymatchClass(yy, (unsigned char *)"\000\000\000\000\000\000\377\003\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000")) goto l6;  goto l5;
+  {  int yypos6= yy->__pos, yythunkpos6= yy->__thunkpos;  if (!yymatchClass(yy, (unsigned char *)"\000\000\000\000\000\100\377\003\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000")) goto l6;  goto l5;
   l6:;	  yy->__pos= yypos6; yy->__thunkpos= yythunkpos6;
   }  yyText(yy, yy->__begin, yy->__end);  {
 #define yytext yy->__text
@@ -562,6 +561,6 @@ YY_PARSE(yycontext *) YYRELEASE(yycontext *yyctx)
 }
 
 #endif
-#line 48 "parser.leg"
+#line 41 "parser.leg"
 
 

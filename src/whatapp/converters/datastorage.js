@@ -47,15 +47,17 @@ var TB = GB * 1024;
 function transform(from, to, input) {
 
     input = number(input);
-    
+    console.log('input', input)
     from = getbase(normlize(from));
     to = getbase(normlize(to))
 
-    
+    var ret;
     if (from < to) {
-        return (from * input) / to;
+        ret = (from * input) / to;
     } else {
-        return (from * input) * to;
+        ret = (from * input) * to;
     }
 
+
+    return ret.toPrecision(8);
 };
