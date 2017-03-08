@@ -86,6 +86,7 @@ Result WhatEngine::run(const QString &in)
     int id;
     auto value = e->value.converter->value;
     auto v = std::to_string(value);
+    Result r;
 
     std::vector<std::string> list;
     if (!q.exec()) {
@@ -125,17 +126,18 @@ Result WhatEngine::run(const QString &in)
         goto error;
     }
 
-
+    
+    r.type = Convertion;
     for (auto ss: list) {
-        qDebug() << e->value.converter->from << ss.c_str() << v.c_str();
+       
         auto output = what_run(what, e->value.converter->from, ss.c_str(), v.c_str());
-        qDebug() << output;
+        r.result[QString::fromStdString(ss)] = QString(output);
     }
 
     what_free(what);
     free_element(e);
 
-    return Result();
+    return r;
 
 error:
     free_element(e);

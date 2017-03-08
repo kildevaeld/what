@@ -21,13 +21,18 @@ QString Backend::suggest(const QString &in) {
   return "";
 }
 
-QString Backend::transform(const QString &in) {
+QVariantMap Backend::transform(const QString &in) {
 
     WhatEngine e;
 
     auto r = e.run(in);
+    
+    QMap<QString, QString>::iterator i;
+    QVariantMap m;
+    for (i =  r.result.begin(); i  != r.result.end(); i++) {
+      m[i.key()] = i.value();
+    }
 
-
-    return "";
+    return m;
 
 }

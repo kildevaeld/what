@@ -1,13 +1,14 @@
 #pragma once
-#include <QString>
 
+#include <QString>
+#include <QMap>
 enum ResultType {
     Convertion
 };
 
 struct Result {
     ResultType type;
-
+    QMap<QString,QString> result;
 };
 
 class WhatEngine {

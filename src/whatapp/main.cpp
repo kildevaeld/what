@@ -7,6 +7,7 @@
 #include <QSqlError>
 #include <QFile>
 #include <QDir>
+#include <QDebug>
 
 QSqlError initDB(const QString &str) {
     QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");

@@ -8,5 +8,5 @@ public:
 
 public slots:
   QString suggest(const QString &in);
-  QString transform(const QString &in);
+  QVariantMap transform(const QString &in);
 };

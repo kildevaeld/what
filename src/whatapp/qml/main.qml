@@ -29,7 +29,9 @@ Rectangle {
         }
 
         onAccepted: {
-            var results = backend.transform(input.text)
+            var r = backend.transform(input.text)
+            result.setResult(r);
+        
         }
 
         Keys.onReleased: {
@@ -51,11 +53,52 @@ Rectangle {
     }
 
     Item {
+        id: result
+        
+        anchors {
+            left: parent.left; right: parent.right; bottom: parent.bottom;
+            top: input.bottom;
+        }
 
+        ListModel {
+            id: model
+        }
+
+        Flow {
+            anchors.fill: parent
+            anchors.margins: 4
+            spacing: 10
+            Repeater {
+                model: model
+                Column {
+                    Text {
+                        text: value
+                    }
+                    Text {
+                        text: key
+                    }
+                }
+            }    
+        }
+
+
+
+        function setResult(ret) {
+            model.clear();
+            for(var key in ret) {
+                console.log(key + " - " + ret[key])
+                model.append({
+                    key: key,
+                    value: ret[key]
+                });
+               
+            }
+             
+        }
     }
 
     Component.onCompleted: {
-        backend.transform("1024 bytes in megabytes")
+       
         input.focus = true
     }
 }
