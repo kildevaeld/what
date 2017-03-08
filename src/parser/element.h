@@ -1,6 +1,11 @@
 #ifndef WHAT_PARSER_H
 #define WHAT_PARSER_H
 
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
 struct Converter {
   char *from;
   char *to;
@@ -26,5 +31,9 @@ struct Element {
 };
 
 typedef struct Element element;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

@@ -1,10 +1,12 @@
 #include "backend.hpp"
 #include <QDebug>
 #include <QStringList>
+#include "engine.hpp"
+
 Backend::Backend(QQuickItem *parent) : QQuickItem(parent) {}
 
 QString Backend::suggest(const QString &in) {
-  qDebug() << "Suggest" << in;
+  //qDebug() << "Suggest" << in;
   if (in.isEmpty())
     return "";
 
@@ -19,4 +21,13 @@ QString Backend::suggest(const QString &in) {
   return "";
 }
 
-QString Backend::transform(const QString &in) { qDebug() << ""; }
+QString Backend::transform(const QString &in) {
+
+    WhatEngine e;
+
+    auto r = e.run(in);
+
+
+    return "";
+
+}

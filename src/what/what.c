@@ -50,12 +50,12 @@ static void initialize_duktape(duk_context *ctx) {
   duk_console_init(ctx, DUK_CONSOLE_PROXY_WRAPPER /*flags*/);
 
   // Module loading
-  duk_push_object(ctx);
+  /*duk_push_object(ctx);
   duk_push_c_function(ctx, cb_resolve_module, DUK_VARARGS);
   duk_put_prop_string(ctx, -2, "resolve");
   duk_push_c_function(ctx, cb_load_module, DUK_VARARGS);
   duk_put_prop_string(ctx, -2, "load");
-  duk_module_node_init(ctx);
+  duk_module_node_init(ctx);*/
 }
 
 what_t *what_create(const char *data) {
@@ -63,6 +63,8 @@ what_t *what_create(const char *data) {
   duk_context *ctx = duk_create_heap_default();
   initialize_duktape(ctx);
   what_info *info = what_info_new(ctx, data);
+
+  if (!info) return NULL;
 
   what_t *what = malloc(sizeof(what_t));
   if (!what) {
@@ -112,12 +114,13 @@ const char *what_run(what_t *what, const char *from, const char *to,
   if (duk_pcall(ctx, 3)) {
     duk_get_prop_string(ctx, -1, "stack");
     printf("Error %s\n", duk_safe_to_string(ctx, -1));
-    duk_pop_n(ctx, 2);
+    duk_pop_n(ctx, 1);
     return NULL;
   }
 
   const char *str = duk_safe_to_string(ctx, -1);
-  duk_pop_n(ctx, 2);
+  duk_pop_n(ctx, 1);
 
   return str;
+    return "";
 }

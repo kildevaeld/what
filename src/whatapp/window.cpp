@@ -70,7 +70,7 @@ void Window::closeEvent(QCloseEvent *event) {
                                 "choose <b>Quit</b> in the context menu "
                                 "of the system tray entry."));*/
     hide();
-    event->ignore();
+    //event->ignore();
   }
 }
 

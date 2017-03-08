@@ -7,12 +7,22 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/duktape)
 
 
 add_subdirectory(vendor/duktape)
+
+add_subdirectory(src/parser)
+include_directories(src/parser)
+
 add_subdirectory(src/what)
+include_directories(src/what)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Quick REQUIRED)
 find_package(Qt5QuickWidgets REQUIRED)
-include_directories(/usr/include/qt/QtGui/5.8.0/QtGui/)
+find_package(Qt5Sql REQUIRED)
+
+## Hotkeys
+if (UNIX AND NOT APPLE)
+    include_directories(/usr/include/qt/QtGui/5.8.0/QtGui/) # UIGlobalHotkeys needs this on linux
+endif(UNIX AND NOT APPLE)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/vendor/hotkey/UIGlobalHotKey)
 add_subdirectory(vendor/hotkey)
 
@@ -25,7 +35,7 @@ add_subdirectory(src/whatapp)
 
 file(
     GLOB_RECURSE PROJECT_FILES FOLLOW_SYMLINKS
-    *.qrc *.qml *.txt *.c *.cpp *.hpp *.h *.in *.cmake *.sh *.md AUTHORS
+    *.qrc *.qml *.txt *.c *.cpp *.hpp *.h *.in *.cmake *.sh *.md AUTHORS, *.js
 )
 
 add_custom_target(

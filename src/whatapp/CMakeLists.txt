@@ -8,9 +8,10 @@ set(SOURCES
     window.cpp
     preferences.cpp
     backend.cpp
+    engine.cpp
 )
 
 
 
 add_executable(what main.cpp ${SOURCES})
-target_link_libraries(what Qt5::Widgets Qt5::Quick Qt5::QuickWidgets libwhat hotkeys)
+target_link_libraries(what Qt5::Widgets Qt5::Quick Qt5::QuickWidgets Qt5::Sql libwhat hotkeys what-parser)

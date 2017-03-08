@@ -1,5 +1,6 @@
 import QtQuick 2.2
 import What 0.1
+
 Rectangle {
     Text {
         id: text
@@ -15,6 +16,7 @@ Rectangle {
     }
 
     TextInput {
+
         id: input
         anchors {
             top: text.bottom
@@ -52,5 +54,8 @@ Rectangle {
 
     }
 
-    Component.onCompleted: input.focus = true
+    Component.onCompleted: {
+        backend.transform("1024 bytes in megabytes")
+        input.focus = true
+    }
 }

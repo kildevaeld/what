@@ -1,6 +1,6 @@
 
 
-parser: parser.c utility_functions.c
+parser: parser.c utility_functions.c parsing_functions.c main.c
 	gcc -o $@ $^
 
 
